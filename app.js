@@ -1,6 +1,7 @@
 const express = require('express');
 const graphQlHttp = require('express-graphql');
 const { buildSchema } = require('graphql');
+const mongoose = require('mongoose');
 
 const events = [];
 
@@ -57,4 +58,10 @@ app.use('/graphql', graphQlHttp({
     graphiql:true,
 }));
 
-app.listen(3000, () => console.log('Server up and running...'));
+mongoose.connect(`mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@cluster0-hgcuo.mongodb.net/test?retryWrites=true`)
+    .then(() =>{
+        app.listen(3000, () => console.log('Server up and running...'));
+    }).catch(err => {
+        console.log(err);
+    })
+
