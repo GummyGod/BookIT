@@ -19,6 +19,7 @@ app.use('/graphql', graphQlHttp({
             description: String!
             price: Float!
             date: String!
+            creator: User!
         }
 
         input EventInput {
@@ -32,6 +33,7 @@ app.use('/graphql', graphQlHttp({
             _id: ID!
             email: String!
             password: String
+            createdEvents:  [Event!]
         }
 
 
@@ -56,11 +58,16 @@ app.use('/graphql', graphQlHttp({
     `),
     rootValue: {
         events: () => {
-            return Event.find().then(events => {
+            return Event.find().populate('creator').then(events => {
                 return events.map(event => {
                     return {
                         ...event._doc, // exclude the metadata from our query
-                        _id: event.id //convert the id to string so graphQL can understand id by using the native method
+                        _id: event.id, //convert the id to string so graphQL can understand id by using the native method
+                        creator: {
+                            ...event._doc.creator._doc,
+                            _id: event._doc.creator.id
+
+                        }
                     };
                 });
             }).catch(err => {
