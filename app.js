@@ -11,6 +11,19 @@ const app = express();
 
 app.use(express.json());
 
+const user = userId => {
+    return User.findById(userId)
+        .then(user => {
+            return {
+                ...user._doc,
+                _id: user.id
+            }
+        })
+        .catch(err => {
+            throw err
+        });
+}
+
 app.use('/graphql', graphQlHttp({
     schema: buildSchema(`
         type Event {
@@ -58,16 +71,12 @@ app.use('/graphql', graphQlHttp({
     `),
     rootValue: {
         events: () => {
-            return Event.find().populate('creator').then(events => {
+            return Event.find().then(events => {
                 return events.map(event => {
                     return {
                         ...event._doc, // exclude the metadata from our query
                         _id: event.id, //convert the id to string so graphQL can understand id by using the native method
-                        creator: {
-                            ...event._doc.creator._doc,
-                            _id: event._doc.creator.id
-
-                        }
+                        creator: user.bind(this, event._doc.creator)
                     };
                 });
             }).catch(err => {
