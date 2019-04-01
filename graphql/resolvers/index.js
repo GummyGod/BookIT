@@ -2,40 +2,42 @@ const bcrypt = require('bcryptjs');
 const Event = require('../../models/event');
 const User = require('../../models/user');
 
-const events = eventIds => {
-    return Event.find({_id: {$in: eventIds}})
-        .then(events => {
-            return events.map(event => {
-                return { 
-                    ...event._doc, 
-                    _id: event.id, 
-                    creator: user.bind(this, event.creator) 
-                }
-            });
-        })
-        .catch(
-            err => {
+const events = async eventIds => {
+    try {
+        const events = await Event.find({ _id: { $in: eventIds } })
 
+        events.map(event => {
+            return { 
+                ...event._doc, 
+                _id: event.id, 
+                creator: user.bind(this, event.creator) 
+            }
         });
+        return events.map(event => event);    
+    } catch(err) {
+        throw err;
+    }
 }
 
-const user = userId => {
-    return User.findById(userId)
-        .then(user => {
-            return {
-                ...user._doc,
-                _id: user.id,
-                createdEvents: events.bind(this, user._doc.createdEvents)
-            }
-        })
-        .catch(err => {
-            throw err
-        });
+const user = async userId => {
+    try {
+        const user = await User.findById(userId)
+        
+        return {
+            ...user._doc,
+            _id: user.id,
+            createdEvents: events.bind(this, user._doc.createdEvents)
+        }
+    } catch(err) {
+        throw err;
+    }
 }
 
 module.exports = {
-    events: () => {
-        return Event.find().then(events => {
+    events: async () => {
+        try {
+            const events = await Event.find()
+
             return events.map(event => {
                 return {
                     ...event._doc, // exclude the metadata from our query
@@ -43,10 +45,10 @@ module.exports = {
                     creator: user.bind(this, event._doc.creator)
                 };
             });
-        }).catch(err => {
-        console.log(err);
+        } catch(err) {
             throw err;
-        });
+        }
+        
     },
     createEvent: args => {
         //generate evt object
@@ -60,7 +62,8 @@ module.exports = {
         let createdEvent;
 
         //save evt to db
-        return event.save()
+        return event
+        .save()
         .then((result) => {
             //save the createdEvent here so no bugs below
             createdEvent = {
