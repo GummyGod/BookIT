@@ -50,21 +50,18 @@ module.exports = {
         }
         
     },
-    createEvent: args => {
+    createEvent: async args => {
         //generate evt object
         const event = new Event({
             title: args.eventInput.title,
             description: args.eventInput.description,
             price: +args.eventInput.price, //hack to make sure whatever we get here should be converted to a number
             date: new Date(args.eventInput.date),
-            creator: '5c97dbfbc3405b80dec4954a' //hardcode this atm, will make logic later
+            creator: '5ca3a46d5a17062d2819846e' //hardcode this atm, will make logic later
         });
         let createdEvent;
-
-        //save evt to db
-        return event
-        .save()
-        .then((result) => {
+        try {
+            const result = await event.save()
             //save the createdEvent here so no bugs below
             createdEvent = {
                 ...result._doc, //exclude the metadata from our query
@@ -72,48 +69,39 @@ module.exports = {
                 //without using mongoose .id method
                 creator: user.bind(this, result._doc.creator)
             };
-            return User.findById('5c97dbfbc3405b80dec4954a') // find user(hardcoded atm)
-            .then(user => {
-                if(!user) { //check if user exists
-                    throw new Error('User not found!') 
-                }
-                user.createdEvents.push(event) // add created event to the user who created it
-                return user.save();
-            })
-            .then((result) => {
-                return createdEvent;
-            })
-        })
-        .catch(err => {
-            console.log(err)
-            throw err;
-        });
+            const creator = await User.findById('5ca3a46d5a17062d2819846e') // find user(hardcoded atm)
+
+            if(!creator) { //check if user exists
+                throw new Error('User not found!') 
+            }
+            creator.createdEvents.push(event) // add created event to the user who created it
+            await creator.save();
+
+            return createdEvent;
+        } catch(err) {
+            console.log(err);
+            throw err
+        }
     },
-    createUser: args => {
-        return User.findOne({email:args.userInput.email})
-            .then(user => {
-            if(user) {
+    createUser: async args => {
+        try {
+            const existingUser = await User.findOne({email:args.userInput.email})
+            if(existingUser) {
                 throw new Error('User exists already!')
             }
-
-            return bcrypt //encrypt pw
-            .hash(args.userInput.password, 12)
-            }).then(hashedPassword => { //chain promises 
-                const user = new User({
-                    email: args.userInput.email,
-                    password: hashedPassword
-                });
-                return user.save() //save to the db
-            })
-            .then(result => { //we get this because user.save is a promise too
-                return {
-                    ...result._doc, 
-                    _id: result.id,
-                    password: null //so it can never be retrieved, this is not the password that gets saved to the db
-                }
-            })
-            .catch(err => {
-                throw err;
+            const hashedPassword = await bcrypt.hash(args.userInput.password, 12)
+            const user = new User({
+                email: args.userInput.email,
+                password: hashedPassword
             });
+            const result = await user.save() //save to the db
+            return {
+                ...result._doc, 
+                _id: result.id,
+                password: null //so it can never be retrieved, this is not the password that gets saved to the db
+            }
+        } catch(err) {
+            throw err;
+        }
     }
 }
