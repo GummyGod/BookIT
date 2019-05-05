@@ -72,7 +72,7 @@ module.exports = {
                     ...booking._doc, 
                     _id: booking.id, 
                     user: user.bind(this, booking._doc.user),
-                    event: singleEvent.bind(this, bookings._doc.event),
+                    event: singleEvent.bind(this, booking._doc.event),
                     createdAt: new Date(booking._doc.createdAt).toISOString(),
                     updatedAt: new Date(booking._doc.updatedAt).toISOString(),
                 }
@@ -146,7 +146,7 @@ module.exports = {
             ...result._doc,
             _id: result.id,
             user: user.bind(this, booking._doc.user),
-            event: singleEvent.bind(this, bookings._doc.event),
+            event: singleEvent.bind(this, booking._doc.event),
             createdAt: new Date(result._doc.createdAt).toISOString(),
             updatedAt: new Date(result._doc.updatedAt).toISOString(),
         }
