@@ -7,14 +7,14 @@ const events = async eventIds => {
     try {
         const events = await Event.find({ _id: { $in: eventIds } })
 
-        events.map(event => {
+        return events.map(event => {
             return { 
                 ...event._doc, 
                 _id: event.id, 
                 creator: user.bind(this, event.creator) 
             }
         });
-        return events.map(event => event);    
+
     } catch(err) {
         throw err;
     }
