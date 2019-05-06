@@ -1,5 +1,5 @@
 const Event = require('../../models/event');
-const User = require('../../models/event');
+const User = require('../../models/user');
 const { dateToString } = require('../../helpers/date')
 
 const events = async eventIds => {
@@ -11,6 +11,7 @@ const events = async eventIds => {
         });
 
     } catch(err) {
+        console.log(err)
         throw err;
     }
 };
@@ -20,6 +21,7 @@ const singleEvent = async eventId => {
         const event = await Event.findById(eventId);
         return transformEvent(event);
     } catch(err) {
+        console.log(err)
         throw err;
     }
 };
@@ -27,13 +29,13 @@ const singleEvent = async eventId => {
 const user = async userId => {
     try {
         const user = await User.findById(userId)
-        
         return {
             ...user._doc,
             _id: user.id,
             createdEvents: events.bind(this, user._doc.createdEvents)
         }
     } catch(err) {
+        console.log(err)
         throw err;
     }
 };
@@ -60,7 +62,3 @@ const transformBookings = booking => {
 
 exports.transformEvent = transformEvent;
 exports.transformBookings = transformBookings;
-
-// exports.user = user;
-// exports.events = events;
-// exports.singleEvent = singleEvent
