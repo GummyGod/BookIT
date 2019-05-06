@@ -1,5 +1,6 @@
-const { dateToString } = require('../../helpers/date')
 const Booking = require('../../models/booking');
+const Event = require('../../models/event');
+const { dateToString } = require('../../helpers/date')
 const { singleEvent, user } = require('./merge');
 
 const transformBookings = booking => {
