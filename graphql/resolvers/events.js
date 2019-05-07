@@ -26,14 +26,14 @@ module.exports = {
             description: args.eventInput.description,
             price: +args.eventInput.price, //hack to make sure whatever we get here should be converted to a number
             date: new Date(args.eventInput.date),
-            creator: '5ca3a46d5a17062d2819846e' //hardcode this atm, will make logic later
+            creator: req.userId
         });
         let createdEvent;
         try {
             const result = await event.save()
             //save the createdEvent here so no bugs below
             createdEvent = transformEvent(result);
-            const creator = await User.findById('5ca3a46d5a17062d2819846e') // find user(hardcoded atm)
+            const creator = await User.findById(req.userId)
 
             if(!creator) { //check if user exists
                 throw new Error('User not found!') 
