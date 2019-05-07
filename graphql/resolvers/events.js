@@ -15,7 +15,10 @@ module.exports = {
         }
         
     },
-    createEvent: async args => {
+    createEvent: async (args,req) => {
+        if (!req.isAuth) {
+            throw new Error('Unathenticated!');
+        }
         //generate evt object
         const event = new Event({
             title: args.eventInput.title,
