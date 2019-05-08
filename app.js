@@ -29,7 +29,7 @@ mongoose
             }?retryWrites=true`
         )
     .then(() =>{
-        app.listen(3000, () => console.log('Server up and running...'));
+        app.listen(4000, () => console.log('Server up and running...'));
     }).catch(err => {
         console.log(err);
     })
