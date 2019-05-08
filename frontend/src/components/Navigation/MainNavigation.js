@@ -1,8 +1,10 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 
+import './MainNavigation.css'
+
 const mainNavigation = props => (
-    <header>
+    <header className="main-navigation">
         <div className="main-navigation__logo">
             <h1> BookIt </h1>
         </div>
