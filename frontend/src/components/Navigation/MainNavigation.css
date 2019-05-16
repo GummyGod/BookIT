@@ -4,7 +4,7 @@
     top: 0;
     width: 100%;
     height: 3.5rem;
-    background: gray;
+    background: #FF4136;
     padding: 0 1 rem;
     display: flex;
     align-items: center;
@@ -32,10 +32,11 @@
 
 .main-navigation__items a {
     text-decoration: none;
-    color: orange;
+    color: #fff;
 }
 
 .main-navigation__items a:hover,
-.main-navigation__items a:active {
-    color:green;
+.main-navigation__items a:active,
+.main-navigation__items a.active {
+    color:#000;
 }
