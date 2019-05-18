@@ -20,10 +20,6 @@ const client = new ApolloClient({
 	link: httpLink,
 	cache: new InMemoryCache()
 })
-//  import { LOGIN_USER } from '../queries/queries'
-//  const { data, loading, error } = await props.LOGIN_USER({ variables: { data: { email, password } } })
-//  export default compose(graphql(LOGIN_USER, { name: 'LOGIN_USER' }))(withApollo(UserLogin))
-
 
 function App() {
 	return (
