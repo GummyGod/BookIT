@@ -2,32 +2,35 @@ import React, { Component } from 'react';
 
 import './Auth.css';
 class AuthPage extends Component {
-    constructor(props) {
-        super(props);
-        this.emailEl = React.createRef();
-        this.passwordEl = React.createRef();
+    state = {
+        email: '',
+        password: ''
     }
-    submitHandler = (event) => {
-        event.preventDefault();
-        const email = this.emailEl.current.value;
-        const password = this.passwordEl.current.value;
+    handleChange = (e) => {
+        this.setState({ [e.target.name]: e.target.value });
+    }
+    // submitHandler = (event) => {
+    //     event.preventDefault();
+    //     const email = this.state.email;
+    //     const password = this.state.password
 
-        if(email.trim().length === 0 || password.trim().length === 0 ) return;
+    //     if(email.trim().length === 0 || password.trim().length === 0 ) return;
 
-        console.log(email,password)
+    //     console.log(email,password)
         
-    }
+    // }
 
     render() {
         return(
-            <form className="auth-form" onSubmit={this.submitHandler}>
+            <form className="auth-form" /*onSubmit={this.submitHandler}*/>
                 <div className="form-control">
                     <label htmlFor="email">E-Mail</label>
-                    <input type="email" id="email" ref={this.emailEl} />
+                    <input name="email" type="email" id="email" onChange={this.handleChange} />
                 </div>
+                <p> {this.state.email}</p>
                 <div className="form-control">
                     <label htmlFor="password">Password</label>
-                    <input type="password" id="password" ref={this.passwordEl} />
+                    <input name ="password" type="password" id="password" onChange={this.handleChange} />
                 </div>
                 <div className="form-actions">
                     <button type="submit"> Submit </button>
