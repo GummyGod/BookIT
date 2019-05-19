@@ -18,7 +18,7 @@ class AuthPage extends Component {
         const password = this.state.password
 
         if(email.trim().length === 0 || password.trim().length === 0 ) return;
-
+        
     }
 
     render() {
