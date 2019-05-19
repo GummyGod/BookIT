@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { gql } from "apollo-boost";
 
 import './Auth.css';
 class AuthPage extends Component {
@@ -6,23 +7,23 @@ class AuthPage extends Component {
         email: '',
         password: ''
     }
+    
     handleChange = (e) => {
         this.setState({ [e.target.name]: e.target.value });
     }
-    // submitHandler = (event) => {
-    //     event.preventDefault();
-    //     const email = this.state.email;
-    //     const password = this.state.password
+    
+    submitHandler = (event) => {
+        event.preventDefault();
+        const email = this.state.email;
+        const password = this.state.password
 
-    //     if(email.trim().length === 0 || password.trim().length === 0 ) return;
+        if(email.trim().length === 0 || password.trim().length === 0 ) return;
 
-    //     console.log(email,password)
-        
-    // }
+    }
 
     render() {
         return(
-            <form className="auth-form" /*onSubmit={this.submitHandler}*/>
+            <form className="auth-form" onSubmit={this.submitHandler}>
                 <div className="form-control">
                     <label htmlFor="email">E-Mail</label>
                     <input name="email" type="email" id="email" onChange={this.handleChange} />
