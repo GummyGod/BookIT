@@ -1,12 +1,30 @@
 const express = require('express');
 const graphQlHttp = require('express-graphql');
 const mongoose = require('mongoose');
+const cors = require('cors');
 
 const graphQlSchema = require('./graphql/schema');
 const graphQlResolvers = require('./graphql/resolvers');
 const isAuth = require('./middleware/is-auth')
 
 const app = express();
+
+app.options('/graphql', function(_req, res, next) {
+    res.header('Allow', 'GET, POST, OPTIONS');
+    next();
+});
+
+
+app.use(cors());
+const corsSettings = {
+    origin: [
+      `https://localhost:3000`,
+      `wss://localhost:3000`,
+    
+    ]
+};
+  
+app.use('*', cors(corsSettings));
 
 app.use(express.json());
 
