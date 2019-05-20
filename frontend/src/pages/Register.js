@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import gql from 'graphql-tag';
 import { Mutation } from 'react-apollo';
-import { Form, Icon, Input, Button } from 'antd';
-
 
 import './Register.css';
 
@@ -18,10 +16,6 @@ mutation createUser($email: String!, $password: String!) {
         email
     }
 }
-
-function hasErrors(fieldsError) {
-  return Object.keys(fieldsError).some(field => fieldsError[field]);
-}
 `;
 class RegisterPage extends Component {
     state = {
@@ -31,11 +25,7 @@ class RegisterPage extends Component {
     handleChange = (e) => {
         this.setState({ [e.target.name]: e.target.value });
     }
-
-    componentDidMount() {
-        // To disabled submit button at the beginning.
-        this.props.form.validateFields();
-    }
+    
 
     render() {
         return(
@@ -65,7 +55,7 @@ class RegisterPage extends Component {
                                     <input name ="password" type="password" id="password" onChange={this.handleChange} />
                                 </div>
                                 <div className="form-actions">
-                                    <Button type="primary" htmlType="submit"> Submit </Button>
+                                    <button type="submit"> Submit </button>
                                 </div>
                             </form>
                         )
