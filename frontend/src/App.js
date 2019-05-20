@@ -5,7 +5,7 @@ import { ApolloProvider } from 'react-apollo';
 import { createHttpLink } from 'apollo-link-http'
 import { InMemoryCache } from 'apollo-cache-inmemory'
 
-import AuthPage from './pages/Auth';
+import RegisterPage from './pages/Register';
 import EventsPage from './pages/Events';
 import BookingsPage from './pages/Bookings';
 import MainNavigation from './components/Navigation/MainNavigation';
@@ -29,8 +29,8 @@ function App() {
 					<MainNavigation /> 
 					<main className="main-content">
 						<Switch>
-							<Redirect from="/" to="/auth" exact/>
-							<Route path="/auth" component={AuthPage} />
+							<Redirect from="/" to="/register" exact/>
+							<Route path="/register" component={RegisterPage} />
 							<Route path="/events" component={EventsPage} />
 							<Route path="/bookings" component={BookingsPage} />
 						</Switch>
