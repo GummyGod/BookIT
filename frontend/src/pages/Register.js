@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import gql from 'graphql-tag';
 import { Mutation } from 'react-apollo';
+import { Form, Icon, Input, Button } from 'antd';
+
 
 import './Register.css';
 
@@ -16,6 +18,10 @@ mutation createUser($email: String!, $password: String!) {
         email
     }
 }
+
+function hasErrors(fieldsError) {
+  return Object.keys(fieldsError).some(field => fieldsError[field]);
+}
 `;
 class RegisterPage extends Component {
     state = {
@@ -25,34 +31,23 @@ class RegisterPage extends Component {
     handleChange = (e) => {
         this.setState({ [e.target.name]: e.target.value });
     }
-    
-    submitHandler = createUser => (event) => {
-        event.preventDefault();
-        const email = this.state.email;
-        const password = this.state.password
 
-        if(email.trim().length === 0 || password.trim().length === 0 ) return;
-        
-        createUser({
-            variables: {
-              email: event.email.value,
-              password: event.password.value
-            }
-          });
-        
+    componentDidMount() {
+        // To disabled submit button at the beginning.
+        this.props.form.validateFields();
     }
 
     render() {
         return(
             <Mutation mutation={CREATE_USER}>
                 {(createUser, {loading,error} ) => {
-                        if(error) return <h1> {error.graphQLErrors[0].message} </h1>;
+                        if(error) return <h1> Something went wrong... </h1>;
                         if(loading) return <h1> Loading... </h1>
 
                         return(
                             <form className="auth-form" onSubmit={ 
                                 e => {
-                                    e.preventDefault()
+                                    e.preventDefault();
                                     createUser({
                                         variables: {
                                             email: this.state.email,
@@ -70,7 +65,7 @@ class RegisterPage extends Component {
                                     <input name ="password" type="password" id="password" onChange={this.handleChange} />
                                 </div>
                                 <div className="form-actions">
-                                    <button type="submit"> Submit </button>
+                                    <Button type="primary" htmlType="submit"> Submit </Button>
                                 </div>
                             </form>
                         )
