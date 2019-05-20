@@ -2,15 +2,12 @@ import gql from 'graphql-tag';
 import { graphql } from 'react-apollo';
 
 const CREATE_USER = gql`
-    mutation createUser(
-        userInput: {
-            email: String!
-            password: String!
-        }
-    ) {
+    mutation {
         createUser(
-            $email: $email
-            $password: $password
+            userInput: {
+                email: $email
+                password: $password
+            }
         ) {
             _id
             email
@@ -20,4 +17,13 @@ const CREATE_USER = gql`
 
 export default graphql(CREATE_USER, {
     name: 'createUser',
+    props: ({createUser}) => ({
+        createUser:(email, password) => 
+            createUser({
+                variables: {
+                    email,
+                    password
+                }
+            })
+    })
 })

@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
-import { gql } from "apollo-boost";
+
 
 import './Auth.css';
+import CreateUser from '../graphql/mutations/create-user/create-user';
+
 class AuthPage extends Component {
     state = {
         email: '',
         password: ''
     }
-    
     handleChange = (e) => {
         this.setState({ [e.target.name]: e.target.value });
     }
@@ -22,6 +23,7 @@ class AuthPage extends Component {
     }
 
     render() {
+        console.log(this.props);
         return(
             <form className="auth-form" onSubmit={this.submitHandler}>
                 <div className="form-control">
