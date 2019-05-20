@@ -13,7 +13,7 @@ import MainNavigation from './components/Navigation/MainNavigation';
 import './App.css';
 
 const httpLink = createHttpLink({
-	uri: 'http://localhost:9000'
+	uri: 'http://localhost:9000/graphql'
 });
 
 const client = new ApolloClient({
