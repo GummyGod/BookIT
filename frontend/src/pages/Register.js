@@ -28,6 +28,8 @@ class RegisterPage extends Component {
     
 
     render() {
+        const { props } = this;
+        console.log(props);
         return(
             <Mutation mutation={CREATE_USER}>
                 {(createUser, {loading,error} ) => {
@@ -55,7 +57,7 @@ class RegisterPage extends Component {
                                     <input name ="password" type="password" id="password" onChange={this.handleChange} />
                                 </div>
                                 <div className="form-actions">
-                                    <button type="submit"> Submit </button>
+                                    <button type="submit"> Register </button>
                                 </div>
                             </form>
                         )

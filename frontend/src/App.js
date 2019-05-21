@@ -8,6 +8,7 @@ import { InMemoryCache } from 'apollo-cache-inmemory'
 import RegisterPage from './pages/Register';
 import EventsPage from './pages/Events';
 import BookingsPage from './pages/Bookings';
+import LoginPage from './pages/Login';
 import MainNavigation from './components/Navigation/MainNavigation';
 
 import './App.css';
@@ -33,6 +34,7 @@ function App() {
 							<Route path="/register" component={RegisterPage} />
 							<Route path="/events" component={EventsPage} />
 							<Route path="/bookings" component={BookingsPage} />
+							<Route path="/login" component={LoginPage} />
 						</Switch>
 					</main>
 				</React.Fragment>
