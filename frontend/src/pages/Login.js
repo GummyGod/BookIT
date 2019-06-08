@@ -11,10 +11,11 @@ mutation login($email: String!, $password: String!) {
         password: $password
     ) {
         userId
+        token
+        tokenExpiration
     }
 }
 `;
-console.log(LOGIN);
 
 class LoginPage extends Component {
     state = {
@@ -24,8 +25,8 @@ class LoginPage extends Component {
     handleChange = (e) => {
         this.setState({ [e.target.name]: e.target.value });
     }
-    
     render() {
+        console.log(this.props);
         return(
             <div className="auth-form">
                 <div className="form-control">
@@ -40,7 +41,7 @@ class LoginPage extends Component {
                 <Mutation mutation={LOGIN}>
                     {(login, {loading,error}) => {
                         if(loading)  return(<h1> Loading... </h1>);
-                        if(error) return(<h1> Something went wrong... </h1>)
+
                         return(
                             <button onClick={
                                 e => {
