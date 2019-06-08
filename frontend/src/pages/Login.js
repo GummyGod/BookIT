@@ -3,6 +3,7 @@ import gql from 'graphql-tag';
 import { Mutation } from 'react-apollo';
 
 import './Register.css';
+import AuthContext from '../context/auth-context';
 
 const LOGIN = gql`
 mutation login($email: String!, $password: String!) {
@@ -22,11 +23,14 @@ class LoginPage extends Component {
         email: '',
         password: ''
     }
+
+    static contextType = AuthContext;
+
     handleChange = (e) => {
         this.setState({ [e.target.name]: e.target.value });
     }
+
     render() {
-        console.log(this.props);
         return(
             <div className="auth-form">
                 <div className="form-control">
@@ -39,9 +43,12 @@ class LoginPage extends Component {
                 </div>
                 <div className="form-actions">
                 <Mutation mutation={LOGIN}>
-                    {(login, {loading,error}) => {
+                    { (login, {data,loading,error}) => {
                         if(loading)  return(<h1> Loading... </h1>);
-
+                        if(data) this.context.login(
+                            data.login.token, 
+                            data.login.userId, 
+                            data.login.tokenExpiration);
                         return(
                             <button onClick={
                                 e => {
