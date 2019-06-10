@@ -44,7 +44,8 @@ mongoose
             process.env.MONGO_PASSWORD
         }@cluster0-hgcuo.mongodb.net/${
                 process.env.MONGO_DB
-            }?retryWrites=true`
+            }?retryWrites=true`,
+        { useNewUrlParser: true }
         )
     .then(() =>{
         app.listen(9000, () => console.log('Server up and running...'));
