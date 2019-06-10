@@ -11,5 +11,6 @@ React.js, Apollo
 
 # How to run the project
 
-Clone the repo and install the dependencies in the main directory for the back-end then switch to front-end and install them there too
+Clone the repo and *npm install* the dependencies in the main directory for the back-end then switch to *frontend* and install them there too.
+
 After that do an *npm start* in the main directory and another *npm start* in the front end file and you're up and running!
