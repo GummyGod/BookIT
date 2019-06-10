@@ -50,7 +50,7 @@ class App extends Component {
 							<MainNavigation /> 
 							<main className="main-content">
 								<Switch>
-									<Redirect from="/" to="/register" exact/>
+									<Redirect from="/" to="/login" exact/>
 									<Route path="/register" component={RegisterPage} />
 									<Route path="/events" component={EventsPage} />
 									<Route path="/bookings" component={BookingsPage} />

@@ -29,19 +29,7 @@ class LoginPage extends Component {
     handleChange = (e) => {
         this.setState({ [e.target.name]: e.target.value });
     }
-    doLogin = async (login) => { 
-        const { data } = await login({ 
-            variables: { 
-                email: this.state.email, 
-                password: this.state.password 
-            } 
-        });
-        this.context.login( 
-            data.login.token, 
-            data.login.userId, 
-            data.login.tokenExpiration 
-        ) 
-    }
+
     render() {
         console.log(this.context);
         return(
@@ -55,11 +43,25 @@ class LoginPage extends Component {
                     <input name ="password" type="password" id="password" onChange={this.handleChange} />
                 </div>
                 <div className="form-actions">
-                <Mutation mutation={LOGIN}>
+                <Mutation mutation={LOGIN} 
+                    onCompleted={(data) => this.context.login(
+                        data.login.token, 
+                        data.login.userId, 
+                        data.login.tokenExpiration
+                    )}>
                     { (login, {data,loading,error}) => {
                         if(loading)  return(<h1> Loading... </h1>);
                         return(
-                            <button onClick={() => this.doLogin()}>
+                            <button onClick={
+                                e => {
+                                e.preventDefault();
+                                    login({
+                                        variables: {
+                                            email: this.state.email,
+                                            password: this.state.password
+                                        }
+                                    })
+                                }}>
                                 Login
                             </button>
                         );
