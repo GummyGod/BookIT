@@ -19,4 +19,5 @@ const bookingSchema = new Schema(
     }
 );
 
+//test
 module.exports = mongoose.model('Booking', bookingSchema);
