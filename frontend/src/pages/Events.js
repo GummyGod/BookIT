@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
-
+import './Events.css'
 class EventsPage extends Component {
     render() {
         return(
-            <button> Create Event </button>
+            <div className="events-control">
+                <p> Create your own events</p>
+                <button className="btn"> Create Event </button>
+            </div>
         );
     }
 }

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import gql from 'graphql-tag';
 import { Mutation } from 'react-apollo';
 
-import './Register.css';
+import '../App.css';
 import AuthContext from '../context/auth-context';
 
 const LOGIN = gql`
