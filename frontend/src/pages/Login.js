@@ -31,7 +31,6 @@ class LoginPage extends Component {
     }
 
     render() {
-        console.log(this.context);
         return(
             <div className="auth-form">
                 <div className="form-control">
@@ -40,7 +39,7 @@ class LoginPage extends Component {
                 </div>
                 <div className="form-control">
                     <label htmlFor="password">Password</label>
-                    <input name ="password" type="password" id="password" onChange={this.handleChange} />
+                    <input name="password" type="password" id="password" onChange={this.handleChange} />
                 </div>
                 <div className="form-actions">
                 <Mutation mutation={LOGIN} 

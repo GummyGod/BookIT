@@ -6,6 +6,10 @@ import './Events.css'
 class EventsPage extends Component {
     state = {
         creating: false,
+        title: '',
+        price: '',
+        date: '',
+        description: '',
     }
 
     createEventHandler = () => {
@@ -18,8 +22,21 @@ class EventsPage extends Component {
 
     onConfirmHandler = () => {
         this.setState({creating:false});
-        //todo
+        
+        const { title, price, date, description } = this.state;
+        const event = { 
+            title, 
+            price, 
+            date, 
+            description 
+        };
+        console.log(event);
     }
+
+    handleChange = (e) => {
+        this.setState({ [e.target.name]: e.target.value });
+    }
+
     render() {
         return(
             <React.Fragment>
@@ -35,13 +52,13 @@ class EventsPage extends Component {
                         <form>
                             <div class="form-control">
                                 <label htmlFor="title"> Title </label>
-                                <input type="text" id="title" />
+                                <input type="text" id="title" name="title" onChange={this.handleChange}/>
                                 <label htmlFor="price"> Price </label>
-                                <input type="number" id="price" />
+                                <input type="number" id="price" name="price" onChange={this.handleChange}/>
                                 <label htmlFor="date"> Date </label>
-                                <input type="date" id="date" />
+                                <input type="date" id="date" name="date" onChange={this.handleChange}/>
                                 <label htmlFor="description"> Description </label>
-                                <textarea id="description" rows="4" />
+                                <textarea id="description" rows="4"  name="description" onChange={this.handleChange}/>
                             </div>
                         </form>
                     </Modal>
