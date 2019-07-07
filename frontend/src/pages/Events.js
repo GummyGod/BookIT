@@ -8,12 +8,14 @@ import './Events.css'
 
 const EVENT = gql`
     mutation {
-        createEvent( eventInput:{
-            title: $title
-            price: $price
-            date: $date
-            description: $description
-        }) {
+        createEvent( 
+            eventInput: {
+                title: $title
+                price: $price
+                date: $date
+                description: $description
+            }
+        ) {
             _id
             price
             title
@@ -73,50 +75,52 @@ class EventsPage extends Component {
                 {this.state.creating && <Backdrop />}
                 {
                     this.state.creating && 
-                    <Modal 
-                        title="Add Event"
-                        canCancel
-                        canConfirm
-                        onCancel={this.onCancelHandler}
-                        onConfirm={this.onConfirmHandler}
-                    > 
-                        <Mutation mutation={EVENT}>
-                        {(createEvent, {loading}) => {
-                            if (loading) return <h1>Loading...</h1>
-                            return(
-                                <form onSubmit={ 
-                                    e => {
-                                        e.preventDefault();
+                    <Mutation mutation={EVENT}>
+                    {(createEvent, {loading}) => {
+                        if (loading) return <h1>Loading...</h1>
+                        return(
+                            <Modal 
+                                title="Add Event"
+                                canCancel
+                                canConfirm
+                                onCancel={this.onCancelHandler}
+                                onConfirm={
+                                    () => {
+                                        this.onConfirmHandler();
                                         createEvent({
                                             variables: {
-                                                title: this.state.title,
-                                                price: this.state.price,
-                                                date: this.state.date,
-                                                description: this.state.description,
+                                                eventInput: {
+                                                    title: this.state.title,
+                                                    price: this.state.price,
+                                                    date: this.state.date,
+                                                    description: this.state.description,
+                                                }
                                             }
                                         })
                                     }
-                                }>
-                                    <div className="form-control">
-                                        <label htmlFor="title"> Title </label>
-                                        <input type="text" id="title" name="title" onChange={this.handleChange}/>
-                                        <label htmlFor="price"> Price </label>
-                                        <input type="number" id="price" name="price" onChange={this.handleChange}/>
-                                        <label htmlFor="date"> Date </label>
-                                        <input type="date" id="date" name="date" onChange={this.handleChange}/>
-                                        <label htmlFor="description"> Description </label>
-                                        <textarea 
-                                            id="description" 
-                                            rows="4"  
-                                            name="description" 
-                                            onChange={this.handleChange}
-                                        />
-                                    </div>
-                                </form>
-                            );
-                        }}
-                        </Mutation>
-                    </Modal>
+                                }
+                             >
+                            <form>
+                                <div className="form-control">
+                                    <label htmlFor="title"> Title </label>
+                                    <input type="text" id="title" name="title" onChange={this.handleChange}/>
+                                    <label htmlFor="price"> Price </label>
+                                    <input type="number" id="price" name="price" onChange={this.handleChange}/>
+                                    <label htmlFor="date"> Date </label>
+                                    <input type="date" id="date" name="date" onChange={this.handleChange}/>
+                                    <label htmlFor="description"> Description </label>
+                                    <textarea 
+                                        id="description" 
+                                        rows="4"  
+                                        name="description" 
+                                        onChange={this.handleChange}
+                                    />
+                                </div>
+                            </form>
+                            </Modal>
+                        );
+                    }}
+                    </Mutation>
                 }
                 <div className="events-control">
                     <p> Create your own events</p>
