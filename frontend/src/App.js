@@ -4,6 +4,7 @@ import { ApolloClient } from 'apollo-boost'
 import { ApolloProvider } from 'react-apollo';
 import { createHttpLink } from 'apollo-link-http'
 import { InMemoryCache } from 'apollo-cache-inmemory'
+import { setContext } from 'apollo-link-context';
 
 import RegisterPage from './pages/Register';
 import EventsPage from './pages/Events';
@@ -17,24 +18,35 @@ import './App.css';
 const httpLink = createHttpLink({
 	uri: 'http://localhost:9000/graphql'
 });
-
+const authLink = setContext((_, { headers }) => {
+	const token = localStorage.getItem('token')
+  
+	return {
+	  headers: {
+		...headers,
+		...(token && { authorization: `Bearer ${token}` })
+	  }
+	}
+  })
 const client = new ApolloClient({
-	link: httpLink,
+	link: authLink.concat(httpLink),
 	cache: new InMemoryCache()
 })
 class App extends Component {
 	state = {
-		userId: null
+		userId: null,
+		token: ''
 	}
 	login = (token,userId) => {
 		localStorage.setItem('token', token);
-		this.setState({userId})
+		this.setState({userId, token})
 	}
 
 	logout = () => {
 		localStorage.removeItem('token');
 	}
 	render() {
+		console.log(this);
 		return(
 			<BrowserRouter>
 				<ApolloProvider client={client}>
@@ -50,14 +62,14 @@ class App extends Component {
 							<MainNavigation /> 
 							<main className="main-content">
 								<Switch>
-									{this.context.token && <Redirect from="/" to="/events" exact/>}
-									{this.context.token && <Redirect from="/register" to="/events" exact/>}
-									{this.context.token && <Redirect from="/login" to="/events" exact/>}
-									{!this.context.token && <Route path="/register" component={RegisterPage} />}
+									{this.state.token && <Redirect from="/" to="/events" exact/>}
+									{this.state.token && <Redirect from="/register" to="/events" exact/>}
+									{this.state.token && <Redirect from="/login" to="/events" exact/>}
+									{!this.state.token && <Route path="/register" component={RegisterPage} />}
 									<Route path="/events" component={EventsPage} />
-									{this.context.token && <Route path="/bookings" component={BookingsPage} />}
-									{!this.context.token && <Route path="/login" component={LoginPage} />}
-									{!this.context.token && <Redirect to="/login" exact/>}
+									{this.state.token && <Route path="/bookings" component={BookingsPage} />}
+									{!this.state.token && <Route path="/login" component={LoginPage} />}
+									{!this.state.token && <Redirect to="/login" exact/>}
 								</Switch>
 							</main>
 						</AuthContext.Provider>
