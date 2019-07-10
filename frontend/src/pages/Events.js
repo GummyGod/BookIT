@@ -33,6 +33,8 @@ class EventsPage extends Component {
         description: '',
     }
 
+    static contextType = AuthContext
+
     createEventHandler = () => {
         this.setState({creating: true});
     }
@@ -111,13 +113,20 @@ class EventsPage extends Component {
                     }}
                     </Mutation>
                 }
-                <div className="events-control">
-                    <p> Create your own events</p>
-                    <button 
-                        className="btn"
-                        onClick={this.createEventHandler}
-                    > Create Event </button>
-                </div>
+                {this.context.token 
+                ? 
+                    <div className="events-control">
+                        <p> Create your own events</p>
+                        <button 
+                            className="btn"
+                            onClick={this.createEventHandler}
+                        > Create Event </button>
+                    </div>
+                :
+                    <div className="events-control">
+                        <p> Please log in to create events </p>
+                    </div>
+             }
             </React.Fragment>
         );
     }
