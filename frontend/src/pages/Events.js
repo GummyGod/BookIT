@@ -33,8 +33,6 @@ class EventsPage extends Component {
         description: '',
     }
 
-    static contextType = AuthContext;
-
     createEventHandler = () => {
         this.setState({creating: true});
     }
@@ -61,13 +59,11 @@ class EventsPage extends Component {
             description 
         };
 
-        const token = this.context.token;
         createEvent({
             variables: {
                 eventInput: event
             }
         })
-        console.log(event);
     }
 
     handleChange = (e) => {

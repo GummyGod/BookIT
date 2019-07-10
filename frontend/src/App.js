@@ -24,15 +24,15 @@ const client = new ApolloClient({
 })
 class App extends Component {
 	state = {
-		token:null,
 		userId: null
 	}
 	login = (token,userId) => {
-		this.setState({ token:token, userId: userId });
+		localStorage.setItem('token', token);
+		this.setState({userId})
 	}
 
 	logout = () => {
-		this.setState({token:null, userId: null});
+		localStorage.removeItem('token');
 	}
 	render() {
 		return(
@@ -41,7 +41,7 @@ class App extends Component {
 					<React.Fragment>
 						<AuthContext.Provider value={
 								{
-									token: this.state.token, 
+									token: localStorage.getItem('token'), 
 									userId: this.state.userId, 
 									login: this.login, 
 									logout:this.logout
@@ -50,14 +50,14 @@ class App extends Component {
 							<MainNavigation /> 
 							<main className="main-content">
 								<Switch>
-									{this.state.token && <Redirect from="/" to="/events" exact/>}
-									{this.state.token && <Redirect from="/register" to="/events" exact/>}
-									{this.state.token && <Redirect from="/login" to="/events" exact/>}
-									{!this.state.token && <Route path="/register" component={RegisterPage} />}
+									{this.context.token && <Redirect from="/" to="/events" exact/>}
+									{this.context.token && <Redirect from="/register" to="/events" exact/>}
+									{this.context.token && <Redirect from="/login" to="/events" exact/>}
+									{!this.context.token && <Route path="/register" component={RegisterPage} />}
 									<Route path="/events" component={EventsPage} />
-									{this.state.token && <Route path="/bookings" component={BookingsPage} />}
-									{!this.state.token && <Route path="/login" component={LoginPage} />}
-									{!this.state.token && <Redirect to="/login" exact/>}
+									{this.context.token && <Route path="/bookings" component={BookingsPage} />}
+									{!this.context.token && <Route path="/login" component={LoginPage} />}
+									{!this.context.token && <Redirect to="/login" exact/>}
 								</Switch>
 							</main>
 						</AuthContext.Provider>
