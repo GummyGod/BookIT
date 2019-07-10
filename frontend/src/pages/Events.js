@@ -1,20 +1,17 @@
 import React, { Component } from 'react';
 import gql from 'graphql-tag';
 import { Mutation } from 'react-apollo';
+import AuthContext from '../context/auth-context';
+
 import Modal from '../components/Modal';
 import Backdrop from '../components/Backdrop'
 
 import './Events.css'
 
 const EVENT = gql`
-    mutation {
+    mutation createEvent($eventInput: EventInput) {
         createEvent( 
-            eventInput: {
-                title: $title
-                price: $price
-                date: $date
-                description: $description
-            }
+            eventInput: $eventInput
         ) {
             _id
             price
@@ -36,6 +33,8 @@ class EventsPage extends Component {
         description: '',
     }
 
+    static contextType = AuthContext;
+
     createEventHandler = () => {
         this.setState({creating: true});
     }
@@ -44,13 +43,12 @@ class EventsPage extends Component {
         this.setState({creating:false});
     }
 
-    onConfirmHandler = () => {
+    onConfirmHandler = (createEvent) => {
         this.setState({creating:false});
         const { title, date, description } = this.state;
         const price = +this.state.price;
 
-        if (
-            title.trim().length === 0 || 
+        if (title.trim().length === 0 || 
             price <= 0 || 
             date.trim().length === 0 ||
             description.trim().length === 0 
@@ -62,6 +60,13 @@ class EventsPage extends Component {
             date, 
             description 
         };
+
+        const token = this.context.token;
+        createEvent({
+            variables: {
+                eventInput: event
+            }
+        })
         console.log(event);
     }
 
@@ -85,19 +90,7 @@ class EventsPage extends Component {
                                 canConfirm
                                 onCancel={this.onCancelHandler}
                                 onConfirm={
-                                    () => {
-                                        this.onConfirmHandler();
-                                        createEvent({
-                                            variables: {
-                                                eventInput: {
-                                                    title: this.state.title,
-                                                    price: this.state.price,
-                                                    date: this.state.date,
-                                                    description: this.state.description,
-                                                }
-                                            }
-                                        })
-                                    }
+                                    () => { this.onConfirmHandler(createEvent) }
                                 }
                              >
                             <form>
