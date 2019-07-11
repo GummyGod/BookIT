@@ -35,15 +35,15 @@ const client = new ApolloClient({
 class App extends Component {
 	state = {
 		userId: null,
-		token: ''
 	}
 	login = (token,userId) => {
 		localStorage.setItem('token', token);
-		this.setState({userId, token})
+		this.setState({userId})
 	}
 
 	logout = () => {
 		localStorage.removeItem('token');
+		this.setState({userId: null});
 	}
 	render() {
 		const hasToken = localStorage.getItem('token');
@@ -62,14 +62,14 @@ class App extends Component {
 							<MainNavigation /> 
 							<main className="main-content">
 								<Switch>
-									{(this.state.token || hasToken) && <Redirect from="/" to="/events" exact/>}
-									{(this.state.token || hasToken) && <Redirect from="/register" to="/events" exact/>}
-									{(this.state.token || hasToken) && <Redirect from="/login" to="/events" exact/>}
-									{(!this.state.token || !hasToken) && <Route path="/register" component={RegisterPage} />}
+									{hasToken && <Redirect from="/" to="/events" exact/>}
+									{hasToken && <Redirect from="/register" to="/events" exact/>}
+									{hasToken && <Redirect from="/login" to="/events" exact/>}
+									{!hasToken && <Route path="/register" component={RegisterPage} />}
 									<Route path="/events" component={EventsPage} />
-									{(this.state.token || hasToken) && <Route path="/bookings" component={BookingsPage} />}
-									{(!this.state.token || !hasToken) && <Route path="/login" component={LoginPage} />}
-									{(!this.state.token || !hasToken) && <Redirect to="/login" exact/>}
+									{hasToken && <Route path="/bookings" component={BookingsPage} />}
+									{!hasToken && <Route path="/login" component={LoginPage} />}
+									{!hasToken && <Redirect to="/login" exact/>}
 								</Switch>
 							</main>
 						</AuthContext.Provider>
