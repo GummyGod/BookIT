@@ -46,7 +46,7 @@ class App extends Component {
 		localStorage.removeItem('token');
 	}
 	render() {
-		console.log(this);
+		const hasToken = localStorage.getItem('token');
 		return(
 			<BrowserRouter>
 				<ApolloProvider client={client}>
@@ -62,14 +62,14 @@ class App extends Component {
 							<MainNavigation /> 
 							<main className="main-content">
 								<Switch>
-									{this.state.token && <Redirect from="/" to="/events" exact/>}
-									{this.state.token && <Redirect from="/register" to="/events" exact/>}
-									{this.state.token && <Redirect from="/login" to="/events" exact/>}
-									{!this.state.token && <Route path="/register" component={RegisterPage} />}
+									{(this.state.token || hasToken) && <Redirect from="/" to="/events" exact/>}
+									{(this.state.token || hasToken) && <Redirect from="/register" to="/events" exact/>}
+									{(this.state.token || hasToken) && <Redirect from="/login" to="/events" exact/>}
+									{(!this.state.token || !hasToken) && <Route path="/register" component={RegisterPage} />}
 									<Route path="/events" component={EventsPage} />
-									{this.state.token && <Route path="/bookings" component={BookingsPage} />}
-									{!this.state.token && <Route path="/login" component={LoginPage} />}
-									{!this.state.token && <Redirect to="/login" exact/>}
+									{(this.state.token || hasToken) && <Route path="/bookings" component={BookingsPage} />}
+									{(!this.state.token || !hasToken) && <Route path="/login" component={LoginPage} />}
+									{(!this.state.token || !hasToken) && <Redirect to="/login" exact/>}
 								</Switch>
 							</main>
 						</AuthContext.Provider>
