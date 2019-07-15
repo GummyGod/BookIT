@@ -148,7 +148,6 @@ class EventsPage extends Component {
                     {({data,loading,error}) => {
                         if(error) return <h1> Unable to load user info.</h1>
                         if(loading) return <h1> Loading... </h1>
-                        console.log(data);
                         return (
                             data.events.map(event => {
                                 return (

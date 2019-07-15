@@ -11,7 +11,6 @@ const events = async eventIds => {
         });
 
     } catch(err) {
-        console.log(err)
         throw err;
     }
 };
@@ -21,7 +20,6 @@ const singleEvent = async eventId => {
         const event = await Event.findById(eventId);
         return transformEvent(event);
     } catch(err) {
-        console.log(err)
         throw err;
     }
 };
@@ -35,7 +33,6 @@ const user = async userId => {
             createdEvents: events.bind(this, user._doc.createdEvents)
         }
     } catch(err) {
-        console.log(err)
         throw err;
     }
 };
