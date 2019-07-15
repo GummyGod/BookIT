@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import gql from 'graphql-tag';
-import { Mutation } from 'react-apollo';
+import { Mutation, Query } from 'react-apollo';
 import AuthContext from '../context/auth-context';
 
 import Modal from '../components/Modal';
@@ -17,6 +17,22 @@ const EVENT = gql`
             price
             title
             description
+            creator {
+                _id
+                email
+            }
+        }
+    }
+`;
+
+const EVENTS = gql`
+    query {
+        events {
+            _id
+            title
+            description
+            date
+            price
             creator {
                 _id
                 email
@@ -127,6 +143,11 @@ class EventsPage extends Component {
                         <p> Please log in to create events </p>
                     </div>
              }
+             <ul className="events_list">
+                <li className="events_list-item">
+                    test
+                </li>
+             </ul>
             </React.Fragment>
         );
     }
