@@ -144,9 +144,22 @@ class EventsPage extends Component {
                     </div>
              }
              <ul className="events_list">
-                <li className="events_list-item">
-                    test
-                </li>
+                 <Query query={EVENTS}>
+                    {({data,loading,error}) => {
+                        if(error) return <h1> Unable to load user info.</h1>
+                        if(loading) return <h1> Loading... </h1>
+                        console.log(data);
+                        return (
+                            data.events.map(event => {
+                                return (
+                                    <li className="events_list-item" key={event._id}>
+                                        {event.title}
+                                    </li>
+                                )
+                            })
+                        )
+                    }}     
+                 </Query>
              </ul>
             </React.Fragment>
         );
