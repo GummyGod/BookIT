@@ -2,7 +2,7 @@ import React from 'react';
 
 import './index.css'
 
-const eventItem = props => console.log(props) || (
+const eventItem = props => (
     <li className="events_list-item" key={props.eventId}>
         <div> 
             <h1> {props.title} </h1> 

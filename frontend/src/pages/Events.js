@@ -74,7 +74,6 @@ class EventsPage extends Component {
     }
 
     render() {
-        console.log(this.context.userId);
         return(
             <React.Fragment>
                 {this.state.creating && <Backdrop />}
