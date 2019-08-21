@@ -28,7 +28,6 @@ class RegisterPage extends Component {
     
 
     render() {
-        const { props } = this;
         return(
             <Mutation mutation={CREATE_USER}>
                 {(createUser, {loading,error} ) => {

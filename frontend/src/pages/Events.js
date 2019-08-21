@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import gql from 'graphql-tag';
-import { Mutation, Query } from 'react-apollo';
+import { Mutation } from 'react-apollo';
 import AuthContext from '../context/auth-context';
 
 import Modal from '../components/Modal';
 import Backdrop from '../components/Backdrop'
+import EventList from '../components/Events/EventList/index'
 
 import './Events.css'
 
@@ -17,22 +18,6 @@ const EVENT = gql`
             price
             title
             description
-            creator {
-                _id
-                email
-            }
-        }
-    }
-`;
-
-const EVENTS = gql`
-    query {
-        events {
-            _id
-            title
-            description
-            date
-            price
             creator {
                 _id
                 email
@@ -142,24 +127,8 @@ class EventsPage extends Component {
                     <div className="events-control">
                         <p> Please log in to create events </p>
                     </div>
-             }
-             <ul className="events_list">
-                 <Query query={EVENTS}>
-                    {({data,loading,error}) => {
-                        if(error) return <h1> Unable to load user info.</h1>
-                        if(loading) return <h1> Loading... </h1>
-                        return (
-                            data.events.map(event => {
-                                return (
-                                    <li className="events_list-item" key={event._id}>
-                                        {event.title}
-                                    </li>
-                                )
-                            })
-                        )
-                    }}     
-                 </Query>
-             </ul>
+                }
+                <EventList />
             </React.Fragment>
         );
     }
