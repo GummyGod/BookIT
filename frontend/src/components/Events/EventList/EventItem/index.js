@@ -9,7 +9,8 @@ const eventItem = props => (
             <h2> $fuck.css </h2>
         </div>
         <div>
-            <button> View Details </button>
+            <button class="btn"> View Details </button>
+            <p> You're the owner of this event </p>
         </div>
     </li>
 );
