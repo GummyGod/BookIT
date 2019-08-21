@@ -74,6 +74,7 @@ class EventsPage extends Component {
     }
 
     render() {
+        console.log(this.context.userId);
         return(
             <React.Fragment>
                 {this.state.creating && <Backdrop />}
@@ -128,7 +129,7 @@ class EventsPage extends Component {
                         <p> Please log in to create events </p>
                     </div>
                 }
-                <EventList />
+                <EventList authUserId={this.context.userId} />
             </React.Fragment>
         );
     }

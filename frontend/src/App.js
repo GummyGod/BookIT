@@ -38,11 +38,13 @@ class App extends Component {
 	}
 	login = (token,userId) => {
 		localStorage.setItem('token', token);
+		localStorage.setItem('userId', userId);
 		this.setState({userId})
 	}
 
 	logout = () => {
 		localStorage.removeItem('token');
+		localStorage.removeItem('userId');
 		this.setState({userId: null});
 	}
 	render() {
@@ -54,7 +56,7 @@ class App extends Component {
 						<AuthContext.Provider value={
 								{
 									token: localStorage.getItem('token'), 
-									userId: this.state.userId, 
+									userId: this.state.userId || localStorage.getItem('userId'), 
 									login: this.login, 
 									logout:this.logout
 								}
