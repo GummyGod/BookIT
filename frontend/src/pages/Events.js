@@ -30,6 +30,7 @@ class EventsPage extends Component {
         title: '',
         price: '',
         date: '',
+        creatorUserId: this.context.userId, //idk? maybe it'll help ? idk if it's right
         description: '',
         selectedEvent: null,
     }
@@ -133,7 +134,7 @@ class EventsPage extends Component {
                         <p> Please log in to create events </p>
                     </div>
                 }
-                <EventList authUserId={this.context.userId} onViewDetail={} />
+                <EventList authUserId={this.context.userId} onViewDetail={this.showDetailHandler} />
             </React.Fragment>
         );
     }
