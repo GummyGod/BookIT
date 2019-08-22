@@ -64,7 +64,8 @@ class EventsPage extends Component {
         createEvent({
             variables: {
                 eventInput: event
-            }
+            },
+            refetchQueries: [`getEvents`],
         })
     }
 

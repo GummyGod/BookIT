@@ -5,7 +5,7 @@ import EventItem from './EventItem/index'
 import './index.css'
 
 const EVENTS = gql`
-    query {
+    query getEvents {
         events {
             _id
             title
