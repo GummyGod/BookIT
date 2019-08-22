@@ -20,7 +20,6 @@ const EVENT = gql`
             description
             creator {
                 _id
-                email
             }
         }
     }

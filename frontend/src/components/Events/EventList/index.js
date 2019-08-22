@@ -14,7 +14,6 @@ const EVENTS = gql`
             price
             creator {
                 _id
-                email
             }
         }
     }
