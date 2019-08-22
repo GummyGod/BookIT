@@ -31,6 +31,7 @@ class EventsPage extends Component {
         price: '',
         date: '',
         description: '',
+        selectedEvent: null,
     }
 
     static contextType = AuthContext
@@ -43,7 +44,7 @@ class EventsPage extends Component {
         this.setState({creating:false});
     }
 
-    onConfirmHandler = (createEvent) => {
+    onConfirmHandler = createEvent => {
         this.setState({creating:false});
         const { title, date, description } = this.state;
         const price = +this.state.price;
@@ -71,6 +72,10 @@ class EventsPage extends Component {
 
     handleChange = (e) => {
         this.setState({ [e.target.name]: e.target.value });
+    }
+
+    showDetailHandler = (eventId) => {
+        // to think bout a showDetailHandler method...
     }
 
     render() {
@@ -128,7 +133,7 @@ class EventsPage extends Component {
                         <p> Please log in to create events </p>
                     </div>
                 }
-                <EventList authUserId={this.context.userId} />
+                <EventList authUserId={this.context.userId} onViewDetail={} />
             </React.Fragment>
         );
     }
