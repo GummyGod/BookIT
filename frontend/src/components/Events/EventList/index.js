@@ -1,7 +1,9 @@
 import React from 'react';
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
-import EventItem from './EventItem/index'
+import EventItem from './EventItem/index';
+import Spinner from '../../Spinner/index';
+
 import './index.css'
 
 const EVENTS = gql`
@@ -25,7 +27,7 @@ const eventList = props => {
             <Query query={EVENTS}>
             {({data,loading,error}) => {
                 if(error) return <h1> Unable to load user info.</h1>
-                if(loading) return <h1> Loading... </h1>
+                if(loading) return <Spinner />
                 return (
                     data.events.map(event => {
                         return (
